@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B61DCAF41BEBB496003C67B8 /* DataPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = B61DCAF31BEBB496003C67B8 /* DataPlot.m */; };
 		B6DAB6421BE8AD5A00E6604E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B6DAB6411BE8AD5A00E6604E /* main.m */; };
 		B6DAB6451BE8AD5A00E6604E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B6DAB6441BE8AD5A00E6604E /* AppDelegate.m */; };
 		B6DAB6481BE8AD5A00E6604E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6DAB6471BE8AD5A00E6604E /* ViewController.m */; };
@@ -15,9 +16,13 @@
 		B6DAB6501BE8AD5A00E6604E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6DAB64E1BE8AD5A00E6604E /* LaunchScreen.storyboard */; };
 		B6DAB6591BE8B1C200E6604E /* DataPlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6DAB6581BE8B1C200E6604E /* DataPlotView.m */; };
 		B6DAB65C1BE8B31700E6604E /* DataPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = B6DAB65B1BE8B31700E6604E /* DataPoint.m */; };
+		B6F3EA3B1BE9327900B99AC0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6F3EA3A1BE9327900B99AC0 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B61DCAF21BEBB496003C67B8 /* DataPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataPlot.h; sourceTree = "<group>"; };
+		B61DCAF31BEBB496003C67B8 /* DataPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataPlot.m; sourceTree = "<group>"; };
+		B61DCAF51BEBBE6D003C67B8 /* DataPlotFormat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataPlotFormat.h; sourceTree = "<group>"; };
 		B6DAB63D1BE8AD5A00E6604E /* DataPlot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DataPlot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6DAB6411BE8AD5A00E6604E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B6DAB6431BE8AD5A00E6604E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -32,6 +37,7 @@
 		B6DAB6581BE8B1C200E6604E /* DataPlotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataPlotView.m; sourceTree = "<group>"; };
 		B6DAB65A1BE8B31700E6604E /* DataPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataPoint.h; sourceTree = "<group>"; };
 		B6DAB65B1BE8B31700E6604E /* DataPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataPoint.m; sourceTree = "<group>"; };
+		B6F3EA3A1BE9327900B99AC0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6F3EA3B1BE9327900B99AC0 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,6 +55,7 @@
 		B6DAB6341BE8AD5A00E6604E = {
 			isa = PBXGroup;
 			children = (
+				B6F3EA3A1BE9327900B99AC0 /* QuartzCore.framework */,
 				B6DAB63F1BE8AD5A00E6604E /* DataPlot */,
 				B6DAB63E1BE8AD5A00E6604E /* Products */,
 			);
@@ -77,6 +85,9 @@
 				B6DAB6581BE8B1C200E6604E /* DataPlotView.m */,
 				B6DAB65A1BE8B31700E6604E /* DataPoint.h */,
 				B6DAB65B1BE8B31700E6604E /* DataPoint.m */,
+				B61DCAF21BEBB496003C67B8 /* DataPlot.h */,
+				B61DCAF31BEBB496003C67B8 /* DataPlot.m */,
+				B61DCAF51BEBBE6D003C67B8 /* DataPlotFormat.h */,
 			);
 			path = DataPlot;
 			sourceTree = "<group>";
@@ -120,6 +131,7 @@
 				TargetAttributes = {
 					B6DAB63C1BE8AD5A00E6604E = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = 95C3T4CA8L;
 					};
 				};
 			};
@@ -159,6 +171,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B61DCAF41BEBB496003C67B8 /* DataPlot.m in Sources */,
 				B6DAB65C1BE8B31700E6604E /* DataPoint.m in Sources */,
 				B6DAB6481BE8AD5A00E6604E /* ViewController.m in Sources */,
 				B6DAB6591BE8B1C200E6604E /* DataPlotView.m in Sources */,
@@ -275,12 +288,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = DataPlot/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.computerguided.DataPlot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -288,12 +302,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = DataPlot/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.computerguided.DataPlot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
@@ -316,6 +331,7 @@
 				B6DAB6561BE8AD5A00E6604E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

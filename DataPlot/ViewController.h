@@ -14,9 +14,8 @@
 @property (weak, nonatomic) IBOutlet DataPlotView *dataPlotView;
 
 
-- (IBAction)sliderChanged:(id)sender;
-- (IBAction)dootedChanged:(id)sender;
 - (IBAction)handlePlotPan:(UIPanGestureRecognizer *)recognizer;
+- (IBAction)handlePlotPinch:(UIPinchGestureRecognizer *)recognizer;
 
 @end
 

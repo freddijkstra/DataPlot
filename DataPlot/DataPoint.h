@@ -15,6 +15,4 @@
 
 - (id) initWithValue:(CGFloat)value atTime:(CGFloat)timestamp;
 
-- (void)panWithPoints:(CGFloat)x;
-
 @end
