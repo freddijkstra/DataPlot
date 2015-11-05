@@ -25,7 +25,7 @@
 - (id)initWithColor:(DPPlotColor)color andStyle:(DPPlotStyle)style;
 
 - (void)addDataValue:(CGFloat)value atTime:(CGFloat)timestamp;
-
 - (CGPoint)getPointAtIndex:(NSUInteger)index;
+- (CGFloat)getValueAtTime:(CGFloat)time;
 
 @end

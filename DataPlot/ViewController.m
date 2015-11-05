@@ -113,7 +113,12 @@
     [recognizer setScale:1];
 }
 
-
+// ------------------------------------------------------------------------------------
+- (IBAction)handlePlotSelect:(UITapGestureRecognizer *)recognizer
+{
+    NSLog(@"TAP!");
+    [_dataPlotView tapAtPosition:[recognizer locationInView:_dataPlotView]];
+}
 
 
 

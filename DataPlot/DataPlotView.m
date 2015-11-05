@@ -198,7 +198,7 @@
     
     // Estimate
     NSUInteger beginIndex = (beginTime-firstTime)/avgTimeStep;
-    NSUInteger endIndex   = (lastTime-endTime)/avgTimeStep;
+    NSUInteger endIndex   = (endTime-firstTime)/avgTimeStep;
     
     // Finetune
     beginPoint = [plot.dataPoints objectAtIndex:beginIndex];
@@ -282,6 +282,54 @@
     else if( newEndTime > maxTime ) newEndTime = maxTime;
     
     [self setViewBeginTime:newBeginTime endTime:newEndTime];
+}
+
+// ------------------------------------------------------------------------------------
+- (void)tapAtPosition:(CGPoint)tapPosition
+{
+    CGFloat radius = 20; // TODO: make define
+    
+    
+    // ---> TODO: convert everything to points, not to time and values.
+    
+    
+    
+    DataPoint* dataPoint;
+    
+    CGFloat minTimePoint = viewBeginTime+(tapPosition.x-radius)/viewTimeScale;
+    CGFloat tapTimePoint = viewBeginTime+(tapPosition.x)/viewTimeScale;
+    CGFloat maxTimePoint = viewBeginTime+(tapPosition.x+radius)/viewTimeScale;
+    CGFloat radiusTime   = radius/viewTimeScale;
+    
+    for( DataPlot* plot in _plots ) plot.selected = NO;
+    
+    for( DataPlot* plot in _plots )
+    {
+        CGFloat tapValue  = (CGRectGetMidY(self.bounds)-tapPosition.y)/plot.scale;
+        CGFloat firstTime = ((DataPoint*)[plot.dataPoints firstObject]).point.x;
+        CGFloat lastTime  = ((DataPoint*)[plot.dataPoints lastObject] ).point.x;
+        
+        // Rough estimate
+        CGFloat avgTimeStep = (lastTime-firstTime)/(CGFloat)plot.dataPoints.count;
+        NSUInteger minIndex = (minTimePoint-firstTime)/avgTimeStep;
+        NSUInteger maxIndex = (maxTimePoint-firstTime)/avgTimeStep;
+        
+        for( NSUInteger i=minIndex; i<maxIndex; i++)
+        {
+            dataPoint = [plot.dataPoints objectAtIndex:i];
+            CGFloat dx = dataPoint.point.x-tapTimePoint;
+            CGFloat dy = dataPoint.point.y-tapValue;
+            CGFloat squareDistance = dx*dx+dy*dy;
+            if( radiusTime*radiusTime > squareDistance )
+            {
+                // Plot selected
+                plot.selected = YES;
+                break;
+            }
+        }
+        if( plot.selected ) break;
+    }
+    [self.layer setNeedsDisplay];
 }
 
 // ------------------------------------------------------------------------------------

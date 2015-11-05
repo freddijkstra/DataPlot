@@ -26,6 +26,7 @@
 // ---------------------------------------------------------------------------------
 - (void)panWithTranslation:(CGPoint)translation;
 - (void)pinchWithScale:(CGFloat)scale aroundPosition:(CGPoint)pinchPosition;
+- (void)tapAtPosition:(CGPoint)tapPosition;
 - (void)setViewBeginTime:(CGFloat)beginTime endTime:(CGFloat)endTime;
 - (void)setScale:(CGFloat)scale;
 

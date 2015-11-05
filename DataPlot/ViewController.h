@@ -16,6 +16,7 @@
 
 - (IBAction)handlePlotPan:(UIPanGestureRecognizer *)recognizer;
 - (IBAction)handlePlotPinch:(UIPinchGestureRecognizer *)recognizer;
+- (IBAction)handlePlotSelect:(UITapGestureRecognizer *)recognizer;
 
 @end
 
