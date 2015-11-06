@@ -26,8 +26,8 @@
 - (void)awakeFromNib
 {
     _plots = [[NSMutableArray alloc]init];
+    _isPlotSelected = NO;
 }
-
 
 // ------------------------------------------------------------------------------------
 - (DataPlot*)createNewPlotWith:(DPPlotColor)color andStyle:(DPPlotStyle)style
@@ -51,18 +51,69 @@
 // ------------------------------------------------------------------------------------
 - (void)drawTimeAxis
 {
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
     UIBezierPath* bezierPath = [UIBezierPath bezierPath];
     [bezierPath moveToPoint: CGPointMake(0, CGRectGetMidY(self.bounds))];
     [bezierPath addLineToPoint: CGPointMake(self.bounds.size.width, CGRectGetMidY(self.bounds))];
     [UIColor.blackColor setStroke];
     bezierPath.lineWidth = 1;
     [bezierPath stroke];
+    
+    // Use first plot for the timestamps.
+    DataPlot* plot = [_plots firstObject];
+    CGFloat firstTime = ((DataPoint*)[plot.dataPoints firstObject]).point.x;
+    CGFloat lastTime  = ((DataPoint*)[plot.dataPoints lastObject] ).point.x;
+    CGFloat avgTimeStep = (lastTime-firstTime)/(CGFloat)plot.dataPoints.count;
+    
+    NSUInteger labelStep = MAX(1,100/(viewTimeScale*avgTimeStep));
+    
+    DataPoint* dataPoint;
+    CGPoint scaledPoint;
+    for( NSUInteger i=indexOfFirstDataPointInView; i<indexOfLastDataPointInView; i++)
+    {
+        if( i%labelStep == 0 )
+        {
+            dataPoint = [plot.dataPoints objectAtIndex:i];
+            scaledPoint = [self scaleDataPoint:dataPoint.point];
+            bezierPath = [UIBezierPath bezierPath];
+            [bezierPath moveToPoint: CGPointMake(scaledPoint.x, CGRectGetMidY(self.bounds)-5)];
+            [bezierPath addLineToPoint: CGPointMake(scaledPoint.x, CGRectGetMidY(self.bounds)+5)];
+            [UIColor.blackColor setStroke];
+            bezierPath.lineWidth = 1;
+            [bezierPath stroke];
+            
+            CGRect textRect = CGRectMake(scaledPoint.x-25, CGRectGetMidY(self.bounds)+5, 50, 10);
+    
+            CGFloat timestamp = dataPoint.point.x;
+            uint min = timestamp/60.0;
+            timestamp -= min*60;
+            
+            NSString* textContent = [NSString stringWithFormat:@"%02.3f",timestamp];
+            
+            NSMutableParagraphStyle* textStyle = NSMutableParagraphStyle.defaultParagraphStyle.mutableCopy;
+            textStyle.alignment = NSTextAlignmentCenter;
+            
+            NSDictionary* textFontAttributes = @{NSFontAttributeName: [UIFont fontWithName: @"Helvetica" size: 10], NSForegroundColorAttributeName: UIColor.blackColor, NSParagraphStyleAttributeName: textStyle};
+            
+            CGFloat textTextHeight = [textContent boundingRectWithSize: CGSizeMake(textRect.size.width, INFINITY)  options: NSStringDrawingUsesLineFragmentOrigin attributes: textFontAttributes context: nil].size.height;
+            CGContextSaveGState(context);
+            CGContextClipToRect(context, textRect);
+            [textContent drawInRect: CGRectMake(CGRectGetMinX(textRect), CGRectGetMinY(textRect) + (CGRectGetHeight(textRect) - textTextHeight) / 2, CGRectGetWidth(textRect), textTextHeight) withAttributes: textFontAttributes];
+            CGContextRestoreGState(context);
+        }
+    }
 }
 
 // ------------------------------------------------------------------------------------
 - (void)drawPlot:(DataPlot*)plot
 {
     UIColor* plotColor = [self determineColor:plot.color];
+    
+    if( _isPlotSelected && !plot.selected )
+    {
+        plotColor = [plotColor colorWithAlphaComponent:0.2];
+    }
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     
@@ -126,7 +177,7 @@
     
     [plotColor setStroke];
     
-    plotPath.lineWidth = 1;
+    plotPath.lineWidth = 2;
     [plotPath stroke];
     CGContextRestoreGState(context);
 }
@@ -292,6 +343,7 @@
     CGFloat maxTimePoint = viewBeginTime+(maxPoint.x)/viewTimeScale;
 
     for( DataPlot* plot in _plots ) plot.selected = NO;
+    _isPlotSelected = NO;
     
     for( DataPlot* plot in _plots )
     {
@@ -315,12 +367,14 @@
             if( radius*radius > squareDistance )
             {
                 // Plot selected
-                plot.selected = YES;
+                plot.selected   = YES;
+                _isPlotSelected = YES;
                 break;
             }
         }
         if( plot.selected ) break;
     }
+    
     [self.layer setNeedsDisplay];
 }
 
@@ -333,7 +387,7 @@
 // ------------------------------------------------------------------------------------
 - (void)setScale:(CGFloat)scale
 {
-    for( DataPlot* plot in _plots ) plot.scale *= scale;
+    for( DataPlot* plot in _plots ) if( plot.selected || !_isPlotSelected  ) plot.scale *= scale;
     [self.layer setNeedsDisplay];
 }
 

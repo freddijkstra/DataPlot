@@ -65,7 +65,7 @@
         [plot addDataValue:(i%100)-50 atTime:(float)i/120.0];
     }
     
-    plot = [_dataPlotView createNewPlotWith:DPPlotColorBlue andStyle:DPPlotStyleSolid];
+    plot = [_dataPlotView createNewPlotWith:DPPlotColorBlue andStyle:DPPlotStyleDotted];
     
     for(NSInteger i=0; i<numPoints; i++)
     {
@@ -79,6 +79,8 @@
 // ------------------------------------------------------------------------------------
 - (IBAction)handlePlotPan:(UIPanGestureRecognizer *)recognizer
 {
+    if( [recognizer numberOfTouches] != 1 ) return;
+    
     [_dataPlotView panWithTranslation:[recognizer translationInView:_dataPlotView]];
     
     // Reset the translation.
@@ -107,13 +109,15 @@
         [_dataPlotView setScale:recognizer.scale];
     }
     
+    // Reset the scaling
     [recognizer setScale:1];
 }
 
 // ------------------------------------------------------------------------------------
 - (IBAction)handlePlotSelect:(UITapGestureRecognizer *)recognizer
 {
-    NSLog(@"TAP!");
+    if( [recognizer numberOfTouches] != 1 ) return;
+    
     [_dataPlotView tapAtPosition:[recognizer locationInView:_dataPlotView]];
 }
 
