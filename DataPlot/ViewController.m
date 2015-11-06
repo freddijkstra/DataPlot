@@ -58,9 +58,6 @@
 {
     DataPlot* plot = [_dataPlotView createNewPlotWith:DPPlotColorRed andStyle:DPPlotStyleSolid];
     
-    // TEST
-    plot.selected = YES;
-    
     NSUInteger numPoints = 3600;
     
     for(NSInteger i=0; i<numPoints; i++)

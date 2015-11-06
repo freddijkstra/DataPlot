@@ -158,12 +158,6 @@
 }
 
 
-
-
-
-
-
-
 // ------------------------------------------------------------------------------------
 - (CGPoint)scaleDataPoint:(CGPoint)dataPoint
 {
@@ -198,7 +192,7 @@
     
     // Estimate
     NSUInteger beginIndex = (beginTime-firstTime)/avgTimeStep;
-    NSUInteger endIndex   = (endTime-firstTime)/avgTimeStep;
+    NSUInteger endIndex   = MIN(plot.dataPoints.count-1,(endTime-firstTime)/avgTimeStep);
     
     // Finetune
     beginPoint = [plot.dataPoints objectAtIndex:beginIndex];
@@ -288,39 +282,37 @@
 - (void)tapAtPosition:(CGPoint)tapPosition
 {
     CGFloat radius = 20; // TODO: make define
-    
-    
-    // ---> TODO: convert everything to points, not to time and values.
-    
-    
-    
+        
     DataPoint* dataPoint;
     
-    CGFloat minTimePoint = viewBeginTime+(tapPosition.x-radius)/viewTimeScale;
-    CGFloat tapTimePoint = viewBeginTime+(tapPosition.x)/viewTimeScale;
-    CGFloat maxTimePoint = viewBeginTime+(tapPosition.x+radius)/viewTimeScale;
-    CGFloat radiusTime   = radius/viewTimeScale;
+    CGPoint minPoint = CGPointMake(tapPosition.x-radius, tapPosition.y-radius);
+    CGPoint maxPoint = CGPointMake(tapPosition.x+radius, tapPosition.y+radius);
     
+    CGFloat minTimePoint = viewBeginTime+(minPoint.x)/viewTimeScale;
+    CGFloat maxTimePoint = viewBeginTime+(maxPoint.x)/viewTimeScale;
+
     for( DataPlot* plot in _plots ) plot.selected = NO;
     
     for( DataPlot* plot in _plots )
     {
-        CGFloat tapValue  = (CGRectGetMidY(self.bounds)-tapPosition.y)/plot.scale;
         CGFloat firstTime = ((DataPoint*)[plot.dataPoints firstObject]).point.x;
         CGFloat lastTime  = ((DataPoint*)[plot.dataPoints lastObject] ).point.x;
         
-        // Rough estimate
+        // Rough estimate, is ok for now (TODO)
         CGFloat avgTimeStep = (lastTime-firstTime)/(CGFloat)plot.dataPoints.count;
-        NSUInteger minIndex = (minTimePoint-firstTime)/avgTimeStep;
-        NSUInteger maxIndex = (maxTimePoint-firstTime)/avgTimeStep;
+        NSInteger minIndex = (minTimePoint<firstTime)?0:(minTimePoint-firstTime)/avgTimeStep;
+        NSInteger maxIndex = MIN(plot.dataPoints.count,(maxTimePoint-firstTime)/avgTimeStep);
         
         for( NSUInteger i=minIndex; i<maxIndex; i++)
         {
             dataPoint = [plot.dataPoints objectAtIndex:i];
-            CGFloat dx = dataPoint.point.x-tapTimePoint;
-            CGFloat dy = dataPoint.point.y-tapValue;
+            
+            CGFloat dx = [self getPointFromTime:dataPoint.point.x]-tapPosition.x;
+            CGFloat dy = CGRectGetMidY(self.bounds)-plot.scale*dataPoint.point.y-tapPosition.y;
+
             CGFloat squareDistance = dx*dx+dy*dy;
-            if( radiusTime*radiusTime > squareDistance )
+    
+            if( radius*radius > squareDistance )
             {
                 // Plot selected
                 plot.selected = YES;
@@ -330,6 +322,12 @@
         if( plot.selected ) break;
     }
     [self.layer setNeedsDisplay];
+}
+
+// ------------------------------------------------------------------------------------
+- (CGFloat)getPointFromTime:(CGFloat)timestamp
+{
+    return (timestamp-viewBeginTime)*viewTimeScale;
 }
 
 // ------------------------------------------------------------------------------------
