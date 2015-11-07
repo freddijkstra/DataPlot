@@ -46,6 +46,11 @@
     {
         [self drawPlot:plot];
     }
+    
+    for( DataPlot* plot in _plots )
+    {
+        if( plot.selected ) [self drawCrossingPointsForPlot:plot];
+    }
 }
 
 // ------------------------------------------------------------------------------------
@@ -104,12 +109,18 @@
 // ------------------------------------------------------------------------------------
 - (void)drawFrameIconInFrame: (CGRect)frame
 {
+    UIColor* iconFillColor = [UIColor blackColor];
     
+    if( _isPlotSelected )
+    {
+        iconFillColor = [iconFillColor colorWithAlphaComponent:0.5];
+    }
+
     //// Group
     {
         //// Rectangle Drawing
         UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + 1, CGRectGetMinY(frame) + 1, 13, 10)];
-        [UIColor.blackColor setFill];
+        [iconFillColor setFill];
         [rectanglePath fill];
         
         
@@ -203,6 +214,62 @@
         [rectangle16Path fill];
     }
 }
+
+// ------------------------------------------------------------------------------------
+- (void)drawCrossingPointsForPlot:(DataPlot*)plot
+{
+    [plot determineCrossPointsBetweenBeginIndex:indexOfFirstDataPointInView andEndIndex:indexOfLastDataPointInView];
+
+    CGRect circleFrame;
+    
+    CGFloat circleSize = 43.0; // TODO: make define
+    
+    // -- Minimum --
+    CGPoint minPoint = plot.minPoint;
+    minPoint = [self scaleDataPoint:minPoint];
+    minPoint.y *= plot.scale;
+    minPoint.y = CGRectGetMidY(self.bounds)-minPoint.y;
+    circleFrame = CGRectMake(minPoint.x-0.5*circleSize, minPoint.y-0.5*circleSize, circleSize, circleSize);
+    [self drawCrossingPointInFrame:circleFrame];
+    
+    // -- Maximum --
+    CGPoint maxPoint = plot.maxPoint;
+    maxPoint = [self scaleDataPoint:maxPoint];
+    maxPoint.y *= plot.scale;
+    maxPoint.y = CGRectGetMidY(self.bounds)-maxPoint.y;
+    circleFrame = CGRectMake(maxPoint.x-0.5*circleSize, maxPoint.y-0.5*circleSize, circleSize, circleSize);
+    [self drawCrossingPointInFrame:circleFrame];
+    
+    // Zero crossings
+    CGFloat axis = CGRectGetMidY(self.bounds);
+    CGPoint zeroPoint;
+    for( DataPoint* zeroDataPoint in plot.zeroPoints)
+    {
+        zeroPoint   = [self scaleDataPoint:zeroDataPoint.point];
+        zeroPoint.y = axis;
+        circleFrame = CGRectMake(zeroPoint.x-0.5*circleSize, zeroPoint.y-0.5*circleSize, circleSize, circleSize);
+        [self drawCrossingPointInFrame:circleFrame];
+    }
+}
+
+// ------------------------------------------------------------------------------------
+- (void)drawCrossingPointInFrame:(CGRect)frame
+{
+    //// Color Declarations
+    UIColor* edgeColor = [UIColor colorWithRed: 0.482 green: 0.49 blue: 0.49 alpha: 1];
+    UIColor* fillColor = [UIColor colorWithRed: 1 green: 1 blue: 1 alpha: 0.5];
+    
+    //// Oval Drawing
+    UIBezierPath* ovalPath =
+        [UIBezierPath bezierPathWithOvalInRect: CGRectMake(CGRectGetMinX(frame) + 1.5, CGRectGetMinY(frame) + 1.5, 40, 40)];
+    [fillColor setFill];
+    [ovalPath fill];
+    [edgeColor setStroke];
+    ovalPath.lineWidth = 1;
+    [ovalPath stroke];
+}
+
+
 
 // ------------------------------------------------------------------------------------
 - (void)drawPlot:(DataPlot*)plot

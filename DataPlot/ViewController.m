@@ -62,21 +62,21 @@
     
     for(NSInteger i=0; i<numPoints; i++)
     {
-        [plot addDataValue:10*sin(i/60.0) atTime:(float)i/120.0];
+        [plot addDataValue:10*cos(i/25.0)*sin(i/60.0) atTime:(float)i/120.0];
     }
     
     plot = [_dataPlotView createNewPlotWith:DPPlotColorBlue andStyle:DPPlotStyleDotted];
     
     for(NSInteger i=0; i<numPoints; i++)
     {
-        [plot addDataValue:30*cos(i/20.0) atTime:(float)i/120.0];
+        [plot addDataValue:30*sin(i/5.0)*cos(i/20.0) atTime:(float)i/120.0];
     }
     
     plot = [_dataPlotView createNewPlotWith:DPPlotColorGreen andStyle:DPPlotStyleSolid];
     
     for(NSInteger i=0; i<numPoints; i++)
     {
-        [plot addDataValue:30*sin(20+i/10.0) atTime:(float)i/120.0];
+        [plot addDataValue:30*cos(i/20.0)*sin(20+i/10.0) atTime:(float)i/120.0];
     }
 
     [_dataPlotView.layer setNeedsDisplay];

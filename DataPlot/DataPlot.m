@@ -16,6 +16,7 @@
     self = [super init];
     
     _dataPoints = [[NSMutableArray alloc]init];
+    _zeroPoints = [[NSMutableArray alloc]init];
     
     // Initial non-zero values.
     _scale = 1;
@@ -77,6 +78,78 @@
     
     return beginPoint.point.y + dy*(timestamp-beginPoint.point.x)/dx;
 }
+
+// ------------------------------------------------------------------------------------
+- (void)determineCrossPointsBetweenBeginIndex:(NSUInteger)beginIndex andEndIndex:(NSUInteger)endIndex
+{
+    _maxPoint = CGPointMake(CGFLOAT_MAX, -CGFLOAT_MIN);
+    _minPoint = CGPointMake(CGFLOAT_MAX, CGFLOAT_MAX);
+    
+    [_zeroPoints removeAllObjects];
+    
+    DataPoint* dataPoint;
+    DataPoint* zeroPoint;
+    
+    // Remember previous point to determine whether the line went through zero.
+    DataPoint* prevPoint = [_dataPoints objectAtIndex:beginIndex];
+    
+    for( NSUInteger i=beginIndex+1; i<endIndex; i++)
+    {
+        dataPoint = [_dataPoints objectAtIndex:i];
+        
+        if( dataPoint.point.y > _maxPoint.y ) _maxPoint = dataPoint.point;
+        if( dataPoint.point.y < _minPoint.y ) _minPoint = dataPoint.point;
+        
+        if( (prevPoint.point.y<0 && dataPoint.point.y >=0 ) ||
+            (prevPoint.point.y>0 && dataPoint.point.y <=0 ) )
+        {
+            CGFloat zeroTime = prevPoint.point.x+(dataPoint.point.x-prevPoint.point.x)*prevPoint.point.y/(prevPoint.point.y-dataPoint.point.y);
+            zeroPoint = [[DataPoint alloc]initWithValue:0 atTime:zeroTime];
+            [_zeroPoints addObject:zeroPoint];
+        }
+        prevPoint = dataPoint;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
