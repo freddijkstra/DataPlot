@@ -58,20 +58,27 @@
 {
     DataPlot* plot = [_dataPlotView createNewPlotWith:DPPlotColorRed andStyle:DPPlotStyleSolid];
     
-    NSUInteger numPoints = 3600;
+    NSUInteger numPoints = 36000;
     
     for(NSInteger i=0; i<numPoints; i++)
     {
-        [plot addDataValue:(i%100)-50 atTime:(float)i/120.0];
+        [plot addDataValue:10*sin(i/60.0) atTime:(float)i/120.0];
     }
     
     plot = [_dataPlotView createNewPlotWith:DPPlotColorBlue andStyle:DPPlotStyleDotted];
     
     for(NSInteger i=0; i<numPoints; i++)
     {
-        [plot addDataValue:(i%50)-40 atTime:(float)i/120.0];
+        [plot addDataValue:30*cos(i/20.0) atTime:(float)i/120.0];
     }
     
+    plot = [_dataPlotView createNewPlotWith:DPPlotColorGreen andStyle:DPPlotStyleSolid];
+    
+    for(NSInteger i=0; i<numPoints; i++)
+    {
+        [plot addDataValue:30*sin(20+i/10.0) atTime:(float)i/120.0];
+    }
+
     [_dataPlotView.layer setNeedsDisplay];
 }
 

@@ -76,20 +76,16 @@
         {
             dataPoint = [plot.dataPoints objectAtIndex:i];
             scaledPoint = [self scaleDataPoint:dataPoint.point];
-            bezierPath = [UIBezierPath bezierPath];
-            [bezierPath moveToPoint: CGPointMake(scaledPoint.x, CGRectGetMidY(self.bounds)-5)];
-            [bezierPath addLineToPoint: CGPointMake(scaledPoint.x, CGRectGetMidY(self.bounds)+5)];
-            [UIColor.blackColor setStroke];
-            bezierPath.lineWidth = 1;
-            [bezierPath stroke];
             
-            CGRect textRect = CGRectMake(scaledPoint.x-25, CGRectGetMidY(self.bounds)+5, 50, 10);
+            CGRect textRect = CGRectMake(scaledPoint.x-25, CGRectGetMidY(self.bounds)+12, 50, 10);
+            CGRect iconRect = CGRectMake(scaledPoint.x-6.5, CGRectGetMidY(self.bounds)+1, 13, 10);
+            [self drawFrameIconInFrame:iconRect];
     
             CGFloat timestamp = dataPoint.point.x;
             uint min = timestamp/60.0;
             timestamp -= min*60;
             
-            NSString* textContent = [NSString stringWithFormat:@"%02.3f",timestamp];
+            NSString* textContent = [NSString stringWithFormat:@"%d:%06.3f",min,timestamp];
             
             NSMutableParagraphStyle* textStyle = NSMutableParagraphStyle.defaultParagraphStyle.mutableCopy;
             textStyle.alignment = NSTextAlignmentCenter;
@@ -102,6 +98,109 @@
             [textContent drawInRect: CGRectMake(CGRectGetMinX(textRect), CGRectGetMinY(textRect) + (CGRectGetHeight(textRect) - textTextHeight) / 2, CGRectGetWidth(textRect), textTextHeight) withAttributes: textFontAttributes];
             CGContextRestoreGState(context);
         }
+    }
+}
+
+// ------------------------------------------------------------------------------------
+- (void)drawFrameIconInFrame: (CGRect)frame
+{
+    
+    //// Group
+    {
+        //// Rectangle Drawing
+        UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + 1, CGRectGetMinY(frame) + 1, 13, 10)];
+        [UIColor.blackColor setFill];
+        [rectanglePath fill];
+        
+        
+        //// Rectangle 2 Drawing
+        UIBezierPath* rectangle2Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + 4, CGRectGetMinY(frame) + 2, 1, 1)];
+        [UIColor.whiteColor setFill];
+        [rectangle2Path fill];
+        
+        
+        //// Rectangle 3 Drawing
+        UIBezierPath* rectangle3Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + 8, CGRectGetMinY(frame) + 2, 1, 1)];
+        [UIColor.whiteColor setFill];
+        [rectangle3Path fill];
+        
+        
+        //// Rectangle 4 Drawing
+        UIBezierPath* rectangle4Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + 6, CGRectGetMinY(frame) + 2, 1, 1)];
+        [UIColor.whiteColor setFill];
+        [rectangle4Path fill];
+        
+        
+        //// Rectangle 5 Drawing
+        UIBezierPath* rectangle5Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + 10, CGRectGetMinY(frame) + 2, 1, 1)];
+        [UIColor.whiteColor setFill];
+        [rectangle5Path fill];
+        
+        
+        //// Rectangle 6 Drawing
+        UIBezierPath* rectangle6Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + 4, CGRectGetMinY(frame) + 4, 7, 4)];
+        [UIColor.whiteColor setFill];
+        [rectangle6Path fill];
+        
+        
+        //// Rectangle 7 Drawing
+        UIBezierPath* rectangle7Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + 4, CGRectGetMinY(frame) + 9, 1, 1)];
+        [UIColor.whiteColor setFill];
+        [rectangle7Path fill];
+        
+        
+        //// Rectangle 8 Drawing
+        UIBezierPath* rectangle8Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + 8, CGRectGetMinY(frame) + 9, 1, 1)];
+        [UIColor.whiteColor setFill];
+        [rectangle8Path fill];
+        
+        
+        //// Rectangle 9 Drawing
+        UIBezierPath* rectangle9Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + 6, CGRectGetMinY(frame) + 9, 1, 1)];
+        [UIColor.whiteColor setFill];
+        [rectangle9Path fill];
+        
+        
+        //// Rectangle 10 Drawing
+        UIBezierPath* rectangle10Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + 10, CGRectGetMinY(frame) + 9, 1, 1)];
+        [UIColor.whiteColor setFill];
+        [rectangle10Path fill];
+        
+        
+        //// Rectangle 11 Drawing
+        UIBezierPath* rectangle11Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + 12, CGRectGetMinY(frame) + 9, 1, 1)];
+        [UIColor.whiteColor setFill];
+        [rectangle11Path fill];
+        
+        
+        //// Rectangle 12 Drawing
+        UIBezierPath* rectangle12Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + 2, CGRectGetMinY(frame) + 2, 1, 1)];
+        [UIColor.whiteColor setFill];
+        [rectangle12Path fill];
+        
+        
+        //// Rectangle 13 Drawing
+        UIBezierPath* rectangle13Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + 2, CGRectGetMinY(frame) + 9, 1, 1)];
+        [UIColor.whiteColor setFill];
+        [rectangle13Path fill];
+        
+        
+        //// Rectangle 14 Drawing
+        UIBezierPath* rectangle14Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + 12, CGRectGetMinY(frame) + 2, 1, 1)];
+        [UIColor.whiteColor setFill];
+        [rectangle14Path fill];
+        
+        
+        //// Rectangle 15 Drawing
+        UIBezierPath* rectangle15Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame), CGRectGetMinY(frame) + 4, 2, 4)];
+        [UIColor.whiteColor setFill];
+        [rectangle15Path fill];
+        
+        
+        //// Rectangle 16 Drawing
+        UIBezierPath* rectangle16Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + 13, CGRectGetMinY(frame) + 4, 2, 4)];
+        [UIColor.whiteColor setFill];
+        [rectangle16Path fill];
     }
 }
 
@@ -133,15 +232,12 @@
     [plotPath moveToPoint:prevPoint];
     
     CGPoint nextPoint;
-    CGFloat dx, dy;
     for( NSUInteger i=indexOfFirstDataPointInView+1; i<=indexOfLastDataPointInView; i++)
     {
         nextPoint = [self scaleDataPoint:[plot getPointAtIndex:i]];
 
         // Only plot if enough distance.
-        dx = prevPoint.x - nextPoint.x;
-        dy = prevPoint.y - nextPoint.y;
-        if( dx*dx+dy*dy > 1.0 )
+        if( fabs(prevPoint.y - nextPoint.y) > 1.0 || fabs(prevPoint.x - nextPoint.x) > 1.0)
         {
             nextPoint.y *= plot.scale;
             nextPoint.y = CGRectGetMidY(self.bounds)-nextPoint.y;
